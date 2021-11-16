@@ -1,10 +1,10 @@
-from utils import compute_rmse
-from data import clean_data, get_data
+from TaxiFareModel.utils import compute_rmse
+from TaxiFareModel.data import clean_data, get_data
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
-from encoders import DistanceTransformer
-from encoders import TimeFeaturesEncoder
+from TaxiFareModel.encoders import DistanceTransformer
+from TaxiFareModel.encoders import TimeFeaturesEncoder
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
@@ -52,10 +52,10 @@ class Trainer():
 
 if __name__ == "__main__":
     data=get_data()
-    data=clean_data()
+    data=clean_data(data)
     y = data["fare_amount"]
     X = data.drop("fare_amount", axis=1)
     X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2)
-    my_pipe=Trainer()
+    my_pipe=Trainer(X_train,y_train)
     my_pipe.run(my_pipe.X,my_pipe.y)
     my_pipe.evaluate(my_pipe.X,my_pipe.y)
